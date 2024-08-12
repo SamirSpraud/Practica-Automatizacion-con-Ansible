@@ -1,0 +1,47 @@
+---
+- name: Configurar servidores
+  hosts: servers
+  become: yes
+  tasks:
+    - name: Actualizar cache de software de apt
+      apt:
+        update_cache: yes
+
+    - name: Instalar apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Instalar cowsay
+      apt:
+        name: cowsay
+        state: present
+
+    - name: Crear archivo de texto
+      copy:
+        content: "Este es un archivo de prueba."
+        dest: /tmp/archivo_prueba.txt
+
+    - name: Crear carpeta
+      file:
+        path: /tmp/carpeta_prueba
+        state: directory
+
+    - name: Copiar archivo
+      copy:
+        src: /mnt/c/Programacion/DevOps Practicas/VM/archivo_local.txt
+        dest: /tmp/archivo_copiado.txt
+
+    - name: Iniciar servicio apache
+      service:
+        name: apache2
+        state: started
+
+    - name: Agregar usuario al servidor
+      user:
+        name: nuevo_usuario
+        state: present
+        shell: /bin/bash
+
+    - name: Ejecutar script
+      command: /path/to/script.sh
